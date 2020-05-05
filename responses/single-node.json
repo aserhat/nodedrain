@@ -1,0 +1,169 @@
+{
+  "kind": "Node",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "node1.lab-1.cloud.local",
+    "selfLink": "/api/v1/nodes/node1.lab-1.cloud.local",
+    "uid": "313e321a-2297-4883-9161-6980f5b5ee69",
+    "resourceVersion": "40147",
+    "creationTimestamp": "2019-11-15T02:40:41Z",
+    "labels": {
+      "beta.kubernetes.io/arch": "amd64",
+      "beta.kubernetes.io/os": "linux",
+      "kubernetes.io/arch": "amd64",
+      "kubernetes.io/hostname": "node1.lab-1.cloud.local",
+      "kubernetes.io/os": "linux",
+      "node-role.kubernetes.io/ingress": "",
+      "node-role.kubernetes.io/node": ""
+    },
+    "annotations": {
+      "kubeadm.alpha.kubernetes.io/cri-socket": "/run/containerd/containerd.sock",
+      "node.alpha.kubernetes.io/ttl": "0",
+      "projectcalico.org/IPv4Address": "192.168.123.4/26",
+      "projectcalico.org/IPv4IPIPTunnelAddr": "10.20.74.192",
+      "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+    }
+  },
+  "spec": {
+    "podCIDR": "10.20.1.0/24",
+    "podCIDRs": [
+      "10.20.1.0/24"
+    ]
+  },
+  "status": {
+    "capacity": {
+      "cpu": "1",
+      "ephemeral-storage": "50565760Ki",
+      "hugepages-2Mi": "0",
+      "memory": "2041240Ki",
+      "pods": "110"
+    },
+    "allocatable": {
+      "cpu": "1",
+      "ephemeral-storage": "46601404339",
+      "hugepages-2Mi": "0",
+      "memory": "1938840Ki",
+      "pods": "110"
+    },
+    "conditions": [
+      {
+        "type": "NetworkUnavailable",
+        "status": "False",
+        "lastHeartbeatTime": "2019-11-20T22:50:28Z",
+        "lastTransitionTime": "2019-11-20T22:50:28Z",
+        "reason": "CalicoIsUp",
+        "message": "Calico is running on this node"
+      },
+      {
+        "type": "MemoryPressure",
+        "status": "False",
+        "lastHeartbeatTime": "2019-11-20T23:47:11Z",
+        "lastTransitionTime": "2019-11-15T02:40:41Z",
+        "reason": "KubeletHasSufficientMemory",
+        "message": "kubelet has sufficient memory available"
+      },
+      {
+        "type": "DiskPressure",
+        "status": "False",
+        "lastHeartbeatTime": "2019-11-20T23:47:11Z",
+        "lastTransitionTime": "2019-11-15T02:40:41Z",
+        "reason": "KubeletHasNoDiskPressure",
+        "message": "kubelet has no disk pressure"
+      },
+      {
+        "type": "PIDPressure",
+        "status": "False",
+        "lastHeartbeatTime": "2019-11-20T23:47:11Z",
+        "lastTransitionTime": "2019-11-15T02:40:41Z",
+        "reason": "KubeletHasSufficientPID",
+        "message": "kubelet has sufficient PID available"
+      },
+      {
+        "type": "Ready",
+        "status": "True",
+        "lastHeartbeatTime": "2019-11-20T23:47:11Z",
+        "lastTransitionTime": "2019-11-15T02:41:41Z",
+        "reason": "KubeletReady",
+        "message": "kubelet is posting ready status. AppArmor enabled"
+      }
+    ],
+    "addresses": [
+      {
+        "type": "InternalIP",
+        "address": "192.168.123.4"
+      },
+      {
+        "type": "Hostname",
+        "address": "node1.lab-1.cloud.local"
+      }
+    ],
+    "daemonEndpoints": {
+      "kubeletEndpoint": {
+        "Port": 10250
+      }
+    },
+    "nodeInfo": {
+      "machineID": "de0ddc48d53549dfb219e39e7dc04478",
+      "systemUUID": "DE0DDC48-D535-49DF-B219-E39E7DC04478",
+      "bootID": "1e97257d-6438-434d-9c3f-d8e0616f3a13",
+      "kernelVersion": "4.15.0-70-generic",
+      "osImage": "Ubuntu 18.04.1 LTS",
+      "containerRuntimeVersion": "containerd://1.3.0",
+      "kubeletVersion": "v1.16.2",
+      "kubeProxyVersion": "v1.16.2",
+      "operatingSystem": "linux",
+      "architecture": "amd64"
+    },
+    "images": [
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/nginx-ingress-controller@sha256:739bb188972cb7584f726659a97764d4fcff281a0dcf7825bb02958ef6fda5e7",
+          "registry1.lab-1.cloud.local/nginx-ingress-controller:0.22.0"
+        ],
+        "sizeBytes": 230163728
+      },
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/calico/node@sha256:a480c9291ece5a7b937780d740e5ab9343b4ed74653d449f3e294f0edb2fe8e2",
+          "registry1.lab-1.cloud.local/calico/node:v3.10.1"
+        ],
+        "sizeBytes": 87972638
+      },
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/calico/cni@sha256:6f33b36c8eb01138d6551612533619cb1c8e53b458c2a86090219ad3cd6aa278",
+          "registry1.lab-1.cloud.local/calico/cni:v3.10.1"
+        ],
+        "sizeBytes": 57304003
+      },
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/kube-proxy@sha256:a205b3625a277bb58b00a5e2da9abcdfa4a72c37f701d0bb090cb7d45164d332",
+          "registry1.lab-1.cloud.local/kube-proxy:v1.16.2"
+        ],
+        "sizeBytes": 30888899
+      },
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/calico/pod2daemon-flexvol@sha256:b85e6b4cbcab8f8eb7b092c37714b9193ed3111b4f9ec6a2a6147102ca917c8d",
+          "registry1.lab-1.cloud.local/calico/pod2daemon-flexvol:v3.10.1"
+        ],
+        "sizeBytes": 4907646
+      },
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/website-react@sha256:aaa4ef7af5c471dadb9dd2c17a9e3dbc90e9abd43fe2a1e9e0a0e59cad94552f",
+          "registry1.lab-1.cloud.local/website-react:v1.3.0"
+        ],
+        "sizeBytes": 2429358
+      },
+      {
+        "names": [
+          "registry1.lab-1.cloud.local/pause@sha256:fcaff905397ba63fd376d0c3019f1f1cb6e7506131389edbcb3d22719f1ae54d",
+          "registry1.lab-1.cloud.local/pause:3.1"
+        ],
+        "sizeBytes": 325550
+      }
+    ]
+  }
+}

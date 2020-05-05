@@ -1,0 +1,28 @@
+#!/bin/bash
+
+APISERVER="https://api.lab-1.cloud.local:6443"
+
+SECRETNAME=$(kubectl get serviceaccount default -o json | jq -r .secrets[0].name)
+
+TOKEN=$(kubectl get secret $SECRETNAME -o json | jq -r .data.token | base64 -d)
+
+curl -s --request PATCH -H 'Content-type: application/strategic-merge-patch+json' -H "Authorization: Bearer $TOKEN" $APISERVER/api/v1/nodes/$1 -d '{"spec":{"unschedulable":true}}'
+
+POD_LIST=$(curl -s -H 'Content-type: application/json' -H "Authorization: Bearer $TOKEN" $APISERVER/api/v1/pods?fieldSelector=spec.nodeName%3D$1)
+
+for row in $(echo $POD_LIST | jq .items | jq -r '.[] | @base64'); do
+    _jq() {
+       echo ${row} | base64 --decode | jq -r ${1}
+    }
+
+   NS=$(_jq '.metadata.namespace') 
+   POD=$(_jq '.metadata.name')
+   KIND=$(_jq '.metadata.ownerReferences[0].kind')
+   
+   if [[ ! $KIND =~ ^(DaemonSet)$ ]]; then
+      EVICTION_DATA='{"apiVersion": "policy/v1beta1","kind": "Eviction","metadata": {"name": "'$POD'","namespace": "'$NS'"}}'
+      echo $EVICTION_DATA > evict-$POD.json
+      curl -s -H 'Content-type: application/json' -H "Authorization: Bearer $TOKEN" $APISERVER/api/v1/namespaces/$NS/pods/$POD/eviction -d @evict-$POD.json
+      rm evict-$POD.json
+   fi
+done

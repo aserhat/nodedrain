@@ -1,0 +1,578 @@
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "annotations": {
+      "scheduler.alpha.kubernetes.io/critical-pod": ""
+    },
+    "creationTimestamp": "2020-05-05T03:16:15Z",
+    "generateName": "calico-node-",
+    "labels": {
+      "controller-revision-hash": "66d4999b8",
+      "k8s-app": "calico-node",
+      "pod-template-generation": "1"
+    },
+    "name": "calico-node-q5xrh",
+    "namespace": "kube-system",
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "DaemonSet",
+        "name": "calico-node",
+        "uid": "504ad7ff-adc3-4bfd-a86d-b79fc73590a4"
+      }
+    ],
+    "resourceVersion": "22672",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/calico-node-q5xrh",
+    "uid": "a048c30e-8008-47e1-82f6-658fa2951961"
+  },
+  "spec": {
+    "affinity": {
+      "nodeAffinity": {
+        "requiredDuringSchedulingIgnoredDuringExecution": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "node3.lab-1.cloud.local"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "containers": [
+      {
+        "env": [
+          {
+            "name": "DATASTORE_TYPE",
+            "value": "kubernetes"
+          },
+          {
+            "name": "WAIT_FOR_DATASTORE",
+            "value": "true"
+          },
+          {
+            "name": "NODENAME",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.nodeName"
+              }
+            }
+          },
+          {
+            "name": "CALICO_NETWORKING_BACKEND",
+            "valueFrom": {
+              "configMapKeyRef": {
+                "key": "calico_backend",
+                "name": "calico-config"
+              }
+            }
+          },
+          {
+            "name": "CLUSTER_TYPE",
+            "value": "k8s,bgp"
+          },
+          {
+            "name": "IP",
+            "value": "autodetect"
+          },
+          {
+            "name": "CALICO_IPV4POOL_IPIP",
+            "value": "Always"
+          },
+          {
+            "name": "FELIX_IPINIPMTU",
+            "valueFrom": {
+              "configMapKeyRef": {
+                "key": "veth_mtu",
+                "name": "calico-config"
+              }
+            }
+          },
+          {
+            "name": "CALICO_IPV4POOL_CIDR",
+            "value": "10.20.0.0/16"
+          },
+          {
+            "name": "CALICO_DISABLE_FILE_LOGGING",
+            "value": "true"
+          },
+          {
+            "name": "FELIX_DEFAULTENDPOINTTOHOSTACTION",
+            "value": "ACCEPT"
+          },
+          {
+            "name": "FELIX_IPV6SUPPORT",
+            "value": "false"
+          },
+          {
+            "name": "FELIX_LOGSEVERITYSCREEN",
+            "value": "info"
+          },
+          {
+            "name": "FELIX_HEALTHENABLED",
+            "value": "true"
+          },
+          {
+            "name": "FELIX_PROMETHEUSMETRICSENABLED",
+            "value": "true"
+          }
+        ],
+        "image": "registry1.lab-1.cloud.local/calico/node:v3.10.1",
+        "imagePullPolicy": "IfNotPresent",
+        "livenessProbe": {
+          "exec": {
+            "command": [
+              "/bin/calico-node",
+              "-felix-live"
+            ]
+          },
+          "failureThreshold": 6,
+          "initialDelaySeconds": 10,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "timeoutSeconds": 1
+        },
+        "name": "calico-node",
+        "readinessProbe": {
+          "exec": {
+            "command": [
+              "/bin/calico-node",
+              "-felix-ready",
+              "-bird-ready"
+            ]
+          },
+          "failureThreshold": 3,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "timeoutSeconds": 1
+        },
+        "resources": {
+          "requests": {
+            "cpu": "250m"
+          }
+        },
+        "securityContext": {
+          "privileged": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/lib/modules",
+            "name": "lib-modules",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/run/xtables.lock",
+            "name": "xtables-lock"
+          },
+          {
+            "mountPath": "/var/run/calico",
+            "name": "var-run-calico"
+          },
+          {
+            "mountPath": "/var/lib/calico",
+            "name": "var-lib-calico"
+          },
+          {
+            "mountPath": "/var/run/nodeagent",
+            "name": "policysync"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "calico-node-token-ksnfx",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "dnsPolicy": "ClusterFirst",
+    "enableServiceLinks": true,
+    "hostNetwork": true,
+    "initContainers": [
+      {
+        "command": [
+          "/opt/cni/bin/calico-ipam",
+          "-upgrade"
+        ],
+        "env": [
+          {
+            "name": "KUBERNETES_NODE_NAME",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.nodeName"
+              }
+            }
+          },
+          {
+            "name": "CALICO_NETWORKING_BACKEND",
+            "valueFrom": {
+              "configMapKeyRef": {
+                "key": "calico_backend",
+                "name": "calico-config"
+              }
+            }
+          }
+        ],
+        "image": "registry1.lab-1.cloud.local/calico/cni:v3.10.1",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "upgrade-ipam",
+        "resources": {},
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/lib/cni/networks",
+            "name": "host-local-net-dir"
+          },
+          {
+            "mountPath": "/host/opt/cni/bin",
+            "name": "cni-bin-dir"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "calico-node-token-ksnfx",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "command": [
+          "/install-cni.sh"
+        ],
+        "env": [
+          {
+            "name": "CNI_CONF_NAME",
+            "value": "10-calico.conflist"
+          },
+          {
+            "name": "CNI_NETWORK_CONFIG",
+            "valueFrom": {
+              "configMapKeyRef": {
+                "key": "cni_network_config",
+                "name": "calico-config"
+              }
+            }
+          },
+          {
+            "name": "KUBERNETES_NODE_NAME",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.nodeName"
+              }
+            }
+          },
+          {
+            "name": "CNI_MTU",
+            "valueFrom": {
+              "configMapKeyRef": {
+                "key": "veth_mtu",
+                "name": "calico-config"
+              }
+            }
+          },
+          {
+            "name": "SLEEP",
+            "value": "false"
+          }
+        ],
+        "image": "registry1.lab-1.cloud.local/calico/cni:v3.10.1",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "install-cni",
+        "resources": {},
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/host/opt/cni/bin",
+            "name": "cni-bin-dir"
+          },
+          {
+            "mountPath": "/host/etc/cni/net.d",
+            "name": "cni-net-dir"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "calico-node-token-ksnfx",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "image": "registry1.lab-1.cloud.local/calico/pod2daemon-flexvol:v3.10.1",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "flexvol-driver",
+        "resources": {},
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/host/driver",
+            "name": "flexvol-driver-host"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "calico-node-token-ksnfx",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "nodeName": "node3.lab-1.cloud.local",
+    "nodeSelector": {
+      "beta.kubernetes.io/os": "linux"
+    },
+    "priority": 2000001000,
+    "priorityClassName": "system-node-critical",
+    "restartPolicy": "Always",
+    "schedulerName": "default-scheduler",
+    "securityContext": {},
+    "serviceAccount": "calico-node",
+    "serviceAccountName": "calico-node",
+    "terminationGracePeriodSeconds": 0,
+    "tolerations": [
+      {
+        "effect": "NoSchedule",
+        "operator": "Exists"
+      },
+      {
+        "key": "CriticalAddonsOnly",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoExecute",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/unreachable",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/disk-pressure",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/memory-pressure",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/pid-pressure",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/unschedulable",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/network-unavailable",
+        "operator": "Exists"
+      }
+    ],
+    "volumes": [
+      {
+        "hostPath": {
+          "path": "/lib/modules",
+          "type": ""
+        },
+        "name": "lib-modules"
+      },
+      {
+        "hostPath": {
+          "path": "/var/run/calico",
+          "type": ""
+        },
+        "name": "var-run-calico"
+      },
+      {
+        "hostPath": {
+          "path": "/var/lib/calico",
+          "type": ""
+        },
+        "name": "var-lib-calico"
+      },
+      {
+        "hostPath": {
+          "path": "/run/xtables.lock",
+          "type": "FileOrCreate"
+        },
+        "name": "xtables-lock"
+      },
+      {
+        "hostPath": {
+          "path": "/opt/cni/bin",
+          "type": ""
+        },
+        "name": "cni-bin-dir"
+      },
+      {
+        "hostPath": {
+          "path": "/etc/cni/net.d",
+          "type": ""
+        },
+        "name": "cni-net-dir"
+      },
+      {
+        "hostPath": {
+          "path": "/var/lib/cni/networks",
+          "type": ""
+        },
+        "name": "host-local-net-dir"
+      },
+      {
+        "hostPath": {
+          "path": "/var/run/nodeagent",
+          "type": "DirectoryOrCreate"
+        },
+        "name": "policysync"
+      },
+      {
+        "hostPath": {
+          "path": "/usr/libexec/kubernetes/kubelet-plugins/volume/exec/nodeagent~uds",
+          "type": "DirectoryOrCreate"
+        },
+        "name": "flexvol-driver-host"
+      },
+      {
+        "name": "calico-node-token-ksnfx",
+        "secret": {
+          "defaultMode": 420,
+          "secretName": "calico-node-token-ksnfx"
+        }
+      }
+    ]
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2020-05-05T03:16:19Z",
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2020-05-05T03:16:28Z",
+        "status": "True",
+        "type": "Ready"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2020-05-05T03:16:28Z",
+        "status": "True",
+        "type": "ContainersReady"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2020-05-05T03:16:15Z",
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "containerStatuses": [
+      {
+        "containerID": "containerd://4ad22c7194a6c0d7720641ebde5da85b4e1975258a84fdc090ac99b4cf6b7d7d",
+        "image": "registry1.lab-1.cloud.local/calico/node:v3.10.1",
+        "imageID": "registry1.lab-1.cloud.local/calico/node@sha256:a480c9291ece5a7b937780d740e5ab9343b4ed74653d449f3e294f0edb2fe8e2",
+        "lastState": {},
+        "name": "calico-node",
+        "ready": true,
+        "restartCount": 0,
+        "started": true,
+        "state": {
+          "running": {
+            "startedAt": "2020-05-05T03:16:20Z"
+          }
+        }
+      }
+    ],
+    "hostIP": "192.168.123.7",
+    "initContainerStatuses": [
+      {
+        "containerID": "containerd://61d409dd768f2eb593187fe5eaf2c55cf0bc78c37332e70ee10fcd737f482be2",
+        "image": "registry1.lab-1.cloud.local/calico/cni:v3.10.1",
+        "imageID": "registry1.lab-1.cloud.local/calico/cni@sha256:6f33b36c8eb01138d6551612533619cb1c8e53b458c2a86090219ad3cd6aa278",
+        "lastState": {},
+        "name": "upgrade-ipam",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://61d409dd768f2eb593187fe5eaf2c55cf0bc78c37332e70ee10fcd737f482be2",
+            "exitCode": 0,
+            "finishedAt": "2020-05-05T03:16:16Z",
+            "reason": "Completed",
+            "startedAt": "2020-05-05T03:16:16Z"
+          }
+        }
+      },
+      {
+        "containerID": "containerd://199aed04ab1323f23a7cbd8b3498d8e5fe6b6aedc7c27c514cbc7350f32bd09c",
+        "image": "registry1.lab-1.cloud.local/calico/cni:v3.10.1",
+        "imageID": "registry1.lab-1.cloud.local/calico/cni@sha256:6f33b36c8eb01138d6551612533619cb1c8e53b458c2a86090219ad3cd6aa278",
+        "lastState": {},
+        "name": "install-cni",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://199aed04ab1323f23a7cbd8b3498d8e5fe6b6aedc7c27c514cbc7350f32bd09c",
+            "exitCode": 0,
+            "finishedAt": "2020-05-05T03:16:17Z",
+            "reason": "Completed",
+            "startedAt": "2020-05-05T03:16:17Z"
+          }
+        }
+      },
+      {
+        "containerID": "containerd://88a0790f6903fd92fd81f9e89f3949fea7f8557da4eeb7da08ae86fd70b12c59",
+        "image": "registry1.lab-1.cloud.local/calico/pod2daemon-flexvol:v3.10.1",
+        "imageID": "registry1.lab-1.cloud.local/calico/pod2daemon-flexvol@sha256:b85e6b4cbcab8f8eb7b092c37714b9193ed3111b4f9ec6a2a6147102ca917c8d",
+        "lastState": {},
+        "name": "flexvol-driver",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://88a0790f6903fd92fd81f9e89f3949fea7f8557da4eeb7da08ae86fd70b12c59",
+            "exitCode": 0,
+            "finishedAt": "2020-05-05T03:16:19Z",
+            "reason": "Completed",
+            "startedAt": "2020-05-05T03:16:19Z"
+          }
+        }
+      }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.123.7",
+    "podIPs": [
+      {
+        "ip": "192.168.123.7"
+      }
+    ],
+    "qosClass": "Burstable",
+    "startTime": "2020-05-05T03:16:15Z"
+  }
+}

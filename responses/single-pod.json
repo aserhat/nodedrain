@@ -1,0 +1,149 @@
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "website-react-584d57b769-rzhfl",
+    "generateName": "website-react-584d57b769-",
+    "namespace": "website-react",
+    "selfLink": "/api/v1/namespaces/website-react/pods/website-react-584d57b769-rzhfl",
+    "uid": "98662979-d06f-4b51-9309-dc3f7b544340",
+    "resourceVersion": "39927",
+    "creationTimestamp": "2019-11-20T23:45:01Z",
+    "labels": {
+      "app": "website-react",
+      "pod-template-hash": "584d57b769"
+    },
+    "annotations": {
+      "cni.projectcalico.org/podIP": "10.20.74.200/32"
+    },
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "name": "website-react-584d57b769",
+        "uid": "50efb1d3-cc69-467d-acfd-cf04ca05deaf",
+        "controller": true,
+        "blockOwnerDeletion": true
+      }
+    ]
+  },
+  "spec": {
+    "volumes": [
+      {
+        "name": "default-token-6q2q5",
+        "secret": {
+          "secretName": "default-token-6q2q5",
+          "defaultMode": 420
+        }
+      }
+    ],
+    "containers": [
+      {
+        "name": "website-react",
+        "image": "registry1.lab-1.cloud.local/website-react:v1.3.0",
+        "ports": [
+          {
+            "containerPort": 8000,
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          
+        },
+        "volumeMounts": [
+          {
+            "name": "default-token-6q2q5",
+            "readOnly": true,
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+          }
+        ],
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "imagePullPolicy": "IfNotPresent"
+      }
+    ],
+    "restartPolicy": "Always",
+    "terminationGracePeriodSeconds": 30,
+    "dnsPolicy": "ClusterFirst",
+    "serviceAccountName": "default",
+    "serviceAccount": "default",
+    "nodeName": "node1.lab-1.cloud.local",
+    "securityContext": {
+      
+    },
+    "schedulerName": "default-scheduler",
+    "tolerations": [
+      {
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists",
+        "effect": "NoExecute",
+        "tolerationSeconds": 300
+      },
+      {
+        "key": "node.kubernetes.io/unreachable",
+        "operator": "Exists",
+        "effect": "NoExecute",
+        "tolerationSeconds": 300
+      }
+    ],
+    "priority": 0,
+    "enableServiceLinks": true
+  },
+  "status": {
+    "phase": "Running",
+    "conditions": [
+      {
+        "type": "Initialized",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2019-11-20T23:45:01Z"
+      },
+      {
+        "type": "Ready",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2019-11-20T23:45:05Z"
+      },
+      {
+        "type": "ContainersReady",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2019-11-20T23:45:05Z"
+      },
+      {
+        "type": "PodScheduled",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2019-11-20T23:45:01Z"
+      }
+    ],
+    "hostIP": "192.168.123.4",
+    "podIP": "10.20.74.200",
+    "podIPs": [
+      {
+        "ip": "10.20.74.200"
+      }
+    ],
+    "startTime": "2019-11-20T23:45:01Z",
+    "containerStatuses": [
+      {
+        "name": "website-react",
+        "state": {
+          "running": {
+            "startedAt": "2019-11-20T23:45:04Z"
+          }
+        },
+        "lastState": {
+          
+        },
+        "ready": true,
+        "restartCount": 0,
+        "image": "registry1.lab-1.cloud.local/website-react:v1.3.0",
+        "imageID": "registry1.lab-1.cloud.local/website-react@sha256:aaa4ef7af5c471dadb9dd2c17a9e3dbc90e9abd43fe2a1e9e0a0e59cad94552f",
+        "containerID": "containerd://76872cc878a3163400cabf6c04e296c137dcfe0661422234d3ff84e7299f7b07",
+        "started": true
+      }
+    ],
+    "qosClass": "BestEffort"
+  }
+}
